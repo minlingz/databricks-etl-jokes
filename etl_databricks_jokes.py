@@ -1,5 +1,5 @@
 # Databricks notebook source
-import requests
+
 from pyspark.sql.functions import col, current_timestamp, explode, split, regexp_extract
 from pyspark.sql.types import *
 

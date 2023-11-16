@@ -12,6 +12,14 @@ The purpose of this project is to use Auto Loader to ingest data (in this case, 
 ### Example:
 ![Alt text](jokedataset.png)
 
+## Dependencies
+The pipeline is written in Python and uses the following libraries:
+* `pyspark` - The Python API for Spark.
+```python
+from pyspark.sql.functions import col, current_timestamp, explode, split, regexp_extract
+from pyspark.sql.types import *
+```
+
 ## How to Run
 1. Create a Databricks cluster with the following configuration:
 * Databricks Runtime Version: 13.3 LTS (includes Apache Spark 3.4.1, Scala 2.12)
@@ -23,8 +31,32 @@ The purpose of this project is to use Auto Loader to ingest data (in this case, 
 * Maximum Workers: 8
 * Auto Termination: True
 * Auto Termination Minutes: 20
-2. Create a Databricks notebook and paste the code from etl_databricks_jokes.py into it.
+2. Create a Databricks notebook and paste the code from `etl_databricks_jokes.py` into it.
 3. Run the notebook.
+
+## Schedule
+The notebook is scheduled to run At 03:00 AM, only on Monday (UTC-05:00 — Eastern Time).
+
+```yml
+resources:
+  jobs:
+    etl_databricks_jokes:
+      name: etl_databricks_jokes
+      email_notifications:
+        on_failure:
+          - mz246@duke.edu
+        no_alert_for_skipped_runs: true
+      schedule:
+        quartz_cron_expression: 46 0 3 ? * Mon
+        timezone_id: America/New_York
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: etl_databricks_jokes
+          notebook_task:
+            notebook_path: /Repos/mz246@duke.edu/databricks-etl-jokes/etl_databricks_jokes
+            source: WORKSPACE
+          existing_cluster_id: 1103-091607-w92wpisf
+```
 
 ## Data Pipeline
 1. Ingest data from cloud object storage using Auto Loader. The Auto Loader automatically detects the schema of the data and stores it in the checkpoint location. The schema is then used to read the data from the cloud object storage. The Auto Loader also automatically detects new files as they arrive in the cloud object storage and processes them. The Auto Loader is configured to ingest JSON data to a Delta table.
