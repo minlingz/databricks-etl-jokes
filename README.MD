@@ -60,9 +60,22 @@ The purpose of this project is to use Auto Loader to ingest data (in this case, 
     .toTable(table_name)  # write to Delta table
 ...
 ```
-4. Visualize the data.
+4. Validate the data quality.
+```python
+# Data validation checks
+assert df.filter(df.ratingCount.isNull()).count() == 0, "Null values found in ratingCount"
+assert df.filter(df.ratingValue.isNull()).count() == 0, "Null values found in ratingValue"
+assert df.filter(df.ratingValue < 0).count() == 0, "Negative values found in ratingValue"
+assert df.filter(df.ratingCount < 0).count() == 0, "Negative values found in ratingCount"
+```
+5. Visualize the data.
+
+Visualize the data using Databricks notebook. The visualization includes two plots: 
+* Joke rating count plot: the distribution of the rating count of the jokes for different tags.
 
 ![Alt text](ratingCountplot.png)
+
+* Joke rating value plot: the distribution of the rating value of the jokes for different tags.
 
 ![Alt text](ratingValueplot.png)
 

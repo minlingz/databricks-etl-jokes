@@ -50,7 +50,22 @@ dbutils.fs.rm(checkpoint_path, True)
     .toTable(table_name)  # write to Delta table
 )
 
+
 # COMMAND ----------
 
 df = spark.read.table(table_name)  # read from Delta table
 display(df)  # display data
+
+# Data validation checks
+assert (
+    df.filter(df.ratingCount.isNull()).count() == 0
+), "Null values found in ratingCount"
+assert (
+    df.filter(df.ratingValue.isNull()).count() == 0
+), "Null values found in ratingValue"
+assert (
+    df.filter(df.ratingValue < 0).count() == 0
+), "Negative values found in ratingValue"
+assert (
+    df.filter(df.ratingCount < 0).count() == 0
+), "Negative values found in ratingCount"
