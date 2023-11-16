@@ -9,6 +9,8 @@ The purpose of this project is to use Auto Loader to ingest data (in this case, 
 
 ## Datasets
 * `dbfs:/FileStore/shared_uploads/mz246@duke.edu/jokes/*.json` - The dataset contains the jokes data in cloud object storage.
+### Example:
+![Alt text](jokedataset.png)
 
 ## How to Run
 1. Create a Databricks cluster with the following configuration:
