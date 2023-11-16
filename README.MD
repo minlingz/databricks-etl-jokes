@@ -10,6 +10,20 @@ The purpose of this project is to use Auto Loader to ingest data (in this case, 
 ## Datasets
 * `dbfs:/FileStore/shared_uploads/mz246@duke.edu/jokes/*.json` - The dataset contains the jokes data in cloud object storage.
 
+## How to Run
+1. Create a Databricks cluster with the following configuration:
+* Databricks Runtime Version: 13.3 LTS (includes Apache Spark 3.4.1, Scala 2.12)
+* Python Version: Python 3
+* Enable Autoscaling: True
+* Terminate after: 20 minutes
+* Worker Type: Standard_DS3_v2
+* Minimum Workers: 1
+* Maximum Workers: 8
+* Auto Termination: True
+* Auto Termination Minutes: 20
+2. Create a Databricks notebook and paste the code from etl_databricks_jokes.py into it.
+3. Run the notebook.
+
 ## Data Pipeline
 1. Ingest data from cloud object storage using Auto Loader. The Auto Loader automatically detects the schema of the data and stores it in the checkpoint location. The schema is then used to read the data from the cloud object storage. The Auto Loader also automatically detects new files as they arrive in the cloud object storage and processes them. The Auto Loader is configured to ingest JSON data to a Delta table.
 
