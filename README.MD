@@ -138,3 +138,5 @@ assert df.filter(df.ratingCount < 0).count() == 0, "Negative values found in rat
 
 ## Future Work
 We can explore more jokes sample dataset to create a topic or tag list that are more likely to have higher rating count and rating value. Generating humor is a complex task in the domain of machine learning, and it requires the models to understand the deep semantic meaning of a joke in order to generate new ones. When generating jokes, if we targeting the joke topics that are more likely to have higher rating count and rating value, we might be able to generate better jokes.
+
+## Youtube demo video: https://youtu.be/5arCVXZrr8E
